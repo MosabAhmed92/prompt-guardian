@@ -1,0 +1,7 @@
+.env
+.vscode
+.DS_Store
+
+
+#training related notes
+terminal_results_final.md
