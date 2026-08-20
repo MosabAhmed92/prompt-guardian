@@ -1,7 +1,7 @@
 .env
 .vscode
 .DS_Store
-
+__pycache__/
 
 #training related notes
 terminal_results_final.md

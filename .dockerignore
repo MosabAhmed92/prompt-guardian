@@ -1,0 +1,11 @@
+__pycache__/
+.env 
+.git/
+.pytest-cache/
+.ruff-cache/
+training/
+
+.vscode/
+notes.md
+test/
+github/
