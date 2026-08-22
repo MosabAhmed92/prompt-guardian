@@ -3,7 +3,7 @@ name: CI-workflow
 on: [push]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6   # step 1
@@ -18,3 +18,25 @@ jobs:
         run: ruff format --check .
       - name: pytest   # step 6
         run: python -m pytest
+
+  build-and-push:
+    needs: test # run ony if tests passed
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write # GTIHUB_TOKEN scope to push to GHCR
+    steps:
+      - uses: actions/checkout@v6
+      - name: log-in to GHCR (Github Container Reg.)
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/mosabahmed92/prompt-guardian:${{ github.sha }}
+            ghcr.io/mosabahmed92/prompt-guardian:latest
